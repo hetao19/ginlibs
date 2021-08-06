@@ -14,10 +14,16 @@ var (
 ```
 
 ```
+// 下载lumberjack日志切割pkg
+go get github.com/natefinch/lumberjack
+```
+
+```
 package main
 
 import (
   "github.com/hetao19/ginlibs/logger"
+  "gopkg.in/natefinch/lumberjack.v2"
   "global"
 )
 
@@ -36,9 +42,10 @@ func init() {
 func setLogger() error {
   global.Logger = logger.NewLogger(&lumberjack.Logger{
     Filename: "./logs/app.log",
-    MaxSize: 600,
-    MaxAge: 10,
+    MaxSize: 600,  // megabytes
+    MaxAge: 10,    // days
     LocalTime: true,
+    Compress: true,  // disable by default
   }, "", log.LstdFlags).WithCaller(2)
   return nil
 }
